@@ -10,13 +10,12 @@ import {
   PieChart,
   Pie,
   Cell,
+  TooltipProps,
 } from 'recharts';
 import _ from 'lodash';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-import { formatNumber, formatCurrency } from '@/utils/format';
-
+import { formatNumber } from '@/utils/format';
 import { Demographics } from '@/types/meta-ads';
 
 const COLORS = [
@@ -29,12 +28,18 @@ const COLORS = [
   '#14b8a6',
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}
+
+const CustomTooltip: FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 border rounded shadow">
         <p className="font-medium">{label}</p>
-        <p>Alcance: {formatNumber(payload[0].value)}</p>
+        <p>Alcance: {formatNumber(payload[0].value as number)}</p>
       </div>
     );
   }
@@ -61,17 +66,15 @@ export const DemographicCharts: FC<DemographicChartsProps> = ({
     });
 
   // Processamento dos dados por gênero
-  const genderData = Object.entries(demographics.genero).map(
-    ([gender, data]) => ({
-      name:
-        gender === 'female'
-          ? 'Feminino'
-          : gender === 'male'
-          ? 'Masculino'
-          : 'Não informado',
-      value: _.sumBy(data, 'Alcance'),
-    })
-  );
+  const genderData = Object.entries(demographics.genero).map(([gender, data]) => ({
+    name:
+      gender === 'female'
+        ? 'Feminino'
+        : gender === 'male'
+        ? 'Masculino'
+        : 'Não informado',
+    value: _.sumBy(data, 'Alcance'),
+  }));
 
   // Processamento dos dados por tipo de anúncio
   const adTypeData = Object.entries(demographics.anuncios)
@@ -81,7 +84,25 @@ export const DemographicCharts: FC<DemographicChartsProps> = ({
       value: _.sumBy(data, 'Alcance'),
     }))
     .sort((a, b) => b.value - a.value)
-    .slice(0, 10); // Pegando apenas os 10 principais tipos de anúncios
+    .slice(0, 10);
+
+  interface CustomAdTooltipProps extends TooltipProps<any, any> {
+    payload?: any[];
+    label?: string;
+  }
+
+  const CustomAdTooltip: FC<CustomAdTooltipProps> = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = adTypeData.find((item) => item.name === label);
+      return (
+        <div className="bg-white p-2 border rounded shadow">
+          <p className="font-medium">{data?.fullName}</p>
+          <p>Alcance: {formatNumber(payload[0].value as number)}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="space-y-6">
@@ -123,7 +144,7 @@ export const DemographicCharts: FC<DemographicChartsProps> = ({
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {genderData.map((entry, index) => (
+                  {genderData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -146,22 +167,7 @@ export const DemographicCharts: FC<DemographicChartsProps> = ({
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis dataKey="name" type="category" width={150} />
-                <Tooltip
-                  content={({ active, payload, label }) => {
-                    if (active && payload && payload.length) {
-                      const data = adTypeData.find(
-                        (item) => item.name === label
-                      );
-                      return (
-                        <div className="bg-white p-2 border rounded shadow">
-                          <p className="font-medium">{data?.fullName}</p>
-                          <p>Alcance: {formatNumber(payload[0].value)}</p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
+                <Tooltip content={<CustomAdTooltip />} />
                 <Bar dataKey="value" fill="#10b981" />
               </BarChart>
             </ResponsiveContainer>

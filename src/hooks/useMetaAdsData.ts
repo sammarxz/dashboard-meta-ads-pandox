@@ -38,15 +38,15 @@ export const useMetaAdsData = () => {
             },
             demographics: {
               idade: _.groupBy(
-                dataWithoutTotals.filter((row) => row.Idade),
+                dataWithoutTotals.filter((row: RawMetaAdsData) => row.Idade),
                 'Idade'
               ),
               genero: _.groupBy(
-                dataWithoutTotals.filter((row) => row.Gênero),
+                dataWithoutTotals.filter((row: RawMetaAdsData) => row.Gênero),
                 'Gênero'
               ),
               anuncios: _.groupBy(
-                dataWithoutTotals.filter((row) => row.Anúncios),
+                dataWithoutTotals.filter((row: RawMetaAdsData) => row.Anúncios),
                 'Anúncios'
               ),
             },
