@@ -1,50 +1,74 @@
-# React + TypeScript + Vite
+# Meta Ads Dashboard - Pandox Inspirações
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard interativo para visualização e análise de dados de campanhas do Meta Ads (Facebook/Instagram).
 
-Currently, two official plugins are available:
+![Preview do Dashboard](./preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- 📊 Visualização de métricas principais (Alcance, Impressões, Frequência, Investimento)
+- 📈 Análise demográfica detalhada (Idade, Gênero)
+- 💰 Métricas de custo (CPM, CPR)
+- 📱 Design responsivo
+- 🎯 Insights de performance da campanha
+- 📋 Análise de tipos de anúncios
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tecnologias Utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+- React com TypeScript
+- Tailwind CSS para estilização
+- Recharts para gráficos
+- ShadcN UI para componentes
+- Lodash para manipulação de dados
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Como Executar
+
+1. Clone o repositório
+```bash
+git clone https://github.com/sammarxz/dashboard-meta-ads-pandox.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Instale as dependências
+```bash
+npm install
 ```
+
+3. Execute o projeto
+```bash
+npm run dev
+```
+
+4. Acesse `http://localhost:5173`
+
+## Estrutura do Projeto
+
+```
+src/
+├── components/        # Componentes React
+├── hooks/             # Hooks customizados
+├── utils/             # Funções utilitárias
+├── constants/         # Valores constantes para o projeto
+├── types/             # Definições de tipos TypeScript
+```
+
+## Funcionalidades do Dashboard
+
+### Métricas Principais
+- Visualização de KPIs essenciais
+- Comparativo entre alcance e impressões
+- Análise de custos por mil (CPM/CPR)
+
+### Análise Demográfica
+- Distribuição por faixa etária
+- Distribuição por gênero
+- Top 10 tipos de anúncios mais efetivos
+
+### Insights
+- Análise de performance
+- Recomendações estratégicas
+- Métricas de eficiência
+
+## Contato
+
+Para mais informações sobre gestão de tráfego pago, entre em contato via WhatsApp:
+[Falar com Gestor](https://wa.me/5581992480658)
